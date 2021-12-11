@@ -10,13 +10,20 @@ app.get('/',(req,res)=>{
 })
 
 
-
+//  client side database connection function script
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db("organicdb").collection("products");
+  const product = {name:"Mitu",price:25,quantity:20};
+  collection.insertOne(product)
+  .then(res=>{
+      console.log('one product added')
+  })
   console.log("database connected")
   // perform actions on the collection object
-  client.close();
+/*client side close function with database*/
+//   client.close();
+/*client side close function with database*/
 });
 
 
