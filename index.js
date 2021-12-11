@@ -1,9 +1,13 @@
 const express = require('express');
 // const MongoClient = require('mongodb').MongoClient;
 const password = "pQEM60MP1iIqxa67";
+const bodyParser = require("body-parser");
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://organicUser:pQEM60MP1iIqxa67@cluster0.djg6r.mongodb.net/organicdb?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({exxtended: false}));
 
 app.get('/',(req,res)=>{
     res.sendFile(__dirname +"/index.html")
@@ -11,15 +15,13 @@ app.get('/',(req,res)=>{
     
 })
 
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//  client side database connection function script with INSERT in a directory
 client.connect(err => {
-  const collection = client.db("organicdb").collection("products");
+  const productCollection = client.db("organicdb").collection("products");
   app.post("/addProduct",(req,res)=>{
     //   POST/INSERT METHOD
-    collection.insertOne(product)
-    .then(res=>{
-        console.log('one product added');
-    })
+    const product = req.body;
+    console.log(product)
   })
   
   console.log("database connected")
