@@ -20,8 +20,14 @@ client.connect(err => {
   const productCollection = client.db("organicdb").collection("products");
   app.post("/addProduct",(req,res)=>{
     //   POST/INSERT METHOD
+    // Here data is creating from index.html and then "req"(requesting)to its body to get data then responding from index.js as "success"
     const product = req.body;
-    console.log(product)
+    productCollection.insertOne(product)
+    .then(result=>{
+        console.log('data added successfully')
+        res.send("success")
+
+    })
   })
   
   console.log("database connected")
