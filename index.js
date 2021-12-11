@@ -6,29 +6,52 @@ const uri = "mongodb+srv://organicUser:pQEM60MP1iIqxa67@cluster0.djg6r.mongodb.n
 const app = express();
 
 app.get('/',(req,res)=>{
-    res.send("hello I am working")
+    res.sendFile(__dirname +"/index.html")
+    
+    
 })
 
-
-//  client side database connection function script
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db("organicdb").collection("products");
-  const product = {name:"Mitu",price:25,quantity:20};
-  collection.insertOne(product)
-  .then(res=>{
-      console.log('one product added')
+  app.post("/addProduct",(req,res)=>{
+    //   POST/INSERT METHOD
+    collection.insertOne(product)
+    .then(res=>{
+        console.log('one product added');
+    })
   })
+  
   console.log("database connected")
   // perform actions on the collection object
-/*client side close function with database*/
 //   client.close();
-/*client side close function with database*/
 });
-
-
-
-
-
-
 app.listen(3000);
+
+
+//  client side database connection function script
+// create/post type:1 Create Data Locally then insert into database
+
+/*=======================*/
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// client.connect(err => {
+//   const collection = client.db("organicdb").collection("products");
+//   const product = {name:"Mitu",price:25,quantity:20};
+//   collection.insertOne(product)
+//   .then(res=>{
+//       console.log('one product added')
+//   })
+//   console.log("database connected")
+//   // perform actions on the collection object
+
+// /*client side close function with database*/
+// //   client.close();
+// /*client side close function with database*/
+// });
+/*=======================*/
+
+
+
+
+
+
