@@ -13,7 +13,8 @@ app.get('/',(req,res)=>{
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-  const collection = client.db("test").collection("devices");
+  const collection = client.db("organicdb").collection("products");
+  console.log("database connected")
   // perform actions on the collection object
   client.close();
 });
