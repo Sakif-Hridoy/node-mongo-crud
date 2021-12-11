@@ -3,6 +3,8 @@ const express = require('express');
 const password = "pQEM60MP1iIqxa67";
 const bodyParser = require("body-parser");
 const MongoClient = require('mongodb').MongoClient;
+// ObjectId is a function of mongodb thats automatically created when data inserted
+const ObjectId = require('mongodb').ObjectId;
 const uri = "mongodb+srv://organicUser:pQEM60MP1iIqxa67@cluster0.djg6r.mongodb.net/organicdb?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const app = express();
@@ -17,6 +19,20 @@ app.get('/',(req,res)=>{
 //  client side database connection function script with INSERT in a directory
 client.connect(err => {
   const productCollection = client.db("organicdb").collection("products");
+  console.log("database connected")
+// READ Directory/Route
+app.get('/products',(req,res)=>{
+    // must read mongo crud docs to know this ind of features 
+    /**/
+    // productCollection.find({}).limit(5)
+    /**/
+    // GET/READ Method
+    productCollection.find({})
+    .toArray((err,result)=>{
+        res.send(result);
+    })
+})
+// READ Directory/Route
 
 
 // INSERT Directory/Route
@@ -32,21 +48,22 @@ app.post("/addProduct",(req,res)=>{
 
     })
   })
+// INSERT Directory/Route
 
-// READ Directory/Route
-app.get('/products',(req,res)=>{
-    // must read mongo crud docs to know this ind of features 
-    /**/
-    // productCollection.find({}).limit(5)
-    /**/
-    // GET/READ Method
-    productCollection.find({})
-    .toArray((err,result)=>{
-        res.send(result);
+
+// DELETE Directory/Route
+
+app.delete('/delete/:id',(req,res)=>{
+    productCollection.deleteOne({_id:ObjectId(req.params.id)})
+    .then(result=>{
+        console.log(result)
     })
 })
-  
-  console.log("database connected")
+
+// DELETE Directory/Route
+
+
+ 
   // perform actions on the collection object
 //   client.close();
 });
