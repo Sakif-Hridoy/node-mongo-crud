@@ -38,18 +38,19 @@ app.get('/products',(req,res)=>{
 
 
 // INSERT/POST Directory/Route
-// app.post("/addProduct",(req,res)=>{
-//     //   POST/INSERT METHOD
-//     // Here data is creating from index.html and then "req"(requesting)to its body to get data then responding from index.js as "success"
-//     const product = req.body;
-//     //   POST/INSERT METHOD
-//     productCollection.insertOne(product)
-//     .then(result=>{
-//         console.log('data added successfully')
-//         res.send("success")
+app.post("/addProduct",(req,res)=>{
+    //   POST/INSERT METHOD
+    // Here data is creating from index.html and then "req"(requesting)to its body to get data then responding from index.js as "success"
+    const product = req.body;
+    //   POST/INSERT METHOD
+    productCollection.insertOne(product)
+    .then(result=>{
+        console.log('data added successfully')
+        res.redirect('/')
+        // res.send("success")
 
-//     })
-//   })
+    })
+  })
 // INSERT Directory/Route
 
 
@@ -58,7 +59,7 @@ app.get('/products',(req,res)=>{
 app.delete('/delete/:id',(req,res)=>{
     productCollection.deleteOne({_id:ObjectId(req.params.id)})
     .then(result=>{
-        console.log(result)
+        res.send(result.deletedCount > 0);
     })
 })
 
@@ -79,7 +80,7 @@ app.get('/product/:id',(req,res)=>{
 
 
 
-// UPDATE Directory/Route
+// UPDATE Directory/Route PATCH
 app.patch('/update/:id',(req,res)=>{
     // UPDATE Method
     productCollection.updateOne({_id: ObjectId(req.params.id)},
@@ -87,12 +88,14 @@ app.patch('/update/:id',(req,res)=>{
         $set:{price:req.body.price,quantity:req.body.quantity}
     })
     .then(result=>{
-        console.log(result)
+        res.send(result.modifiedCount > 0);
     })
 })
   // perform actions on the collection object
 //   client.close();
 });
+// UPDATE Directory/Route
+
 app.listen(3000);
 
 
