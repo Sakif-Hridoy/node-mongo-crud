@@ -64,16 +64,26 @@ app.delete('/delete/:id',(req,res)=>{
 
 // DELETE Directory/Route
 
-//UPDATE/EDIT Directory/Route
+//EDIT Directory/Route
 
 app.get('/product/:id',(req,res)=>{
-    //UPDATE/EDIT Method
+    //EDIT Method
     productCollection.find({_id: ObjectId(req.params.id)})
     .toArray((err,documents)=>{
         res.send(documents[0]);
     })
 })
- 
+//EDIT Directory/Route
+
+app.patch('/update/:id',(req,res)=>{
+    productCollection.updateOne({_id: ObjectId(req.params.id)},
+    {
+        $set:{proce:req.body.price,quantity:req.body.quantity}
+    })
+    .then(result=>{
+        console.log(result)
+    })
+})
   // perform actions on the collection object
 //   client.close();
 });
