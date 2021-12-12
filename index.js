@@ -64,6 +64,8 @@ app.delete('/delete/:id',(req,res)=>{
 
 // DELETE Directory/Route
 
+
+
 //EDIT Directory/Route
 
 app.get('/product/:id',(req,res)=>{
@@ -75,7 +77,11 @@ app.get('/product/:id',(req,res)=>{
 })
 //EDIT Directory/Route
 
+
+
+// UPDATE Directory/Route
 app.patch('/update/:id',(req,res)=>{
+    // UPDATE Method
     productCollection.updateOne({_id: ObjectId(req.params.id)},
     {
         $set:{price:req.body.price,quantity:req.body.quantity}
