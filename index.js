@@ -78,7 +78,7 @@ app.get('/product/:id',(req,res)=>{
 app.patch('/update/:id',(req,res)=>{
     productCollection.updateOne({_id: ObjectId(req.params.id)},
     {
-        $set:{proce:req.body.price,quantity:req.body.quantity}
+        $set:{price:req.body.price,quantity:req.body.quantity}
     })
     .then(result=>{
         console.log(result)
