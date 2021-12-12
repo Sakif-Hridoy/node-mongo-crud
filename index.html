@@ -15,14 +15,12 @@
       <button type="submit">Add Product</button>
   </form>
 
-  <div id="products">
-      
-  </div>
-
+  <div id="products"></div>
+  <div id="update"></div>
   <script>
 
 /* fetch using a function and call the function*/
-    function loadProducts(){
+    function loadAllProducts(){
         fetch('/products')
       .then(res=>res.json())
       .then(products =>{
@@ -30,12 +28,28 @@
           const container = document.getElementById('products');
           products.forEach(product =>{
               const p = document.createElement('p');
-              p.innerHTML = `<strong>${product.name}</strong> price:${product.price} quantity:${product.quantity}<button onclick="deleteProduct('${product._id}')">delete</button>`;
+              p.innerHTML = `<strong>${product.name}</strong> price:${product.price} quantity:${product.quantity}
+              <button onclick="loadProduct('${product._id}')">update</button>
+              <button onclick="deleteProduct('${product._id}')">delete</button>`;
               container.appendChild(p);
           });
       })
     }
-    loadProducts();
+    loadAllProducts();
+
+    function loadProduct(id){
+        fetch(`product/${id}`)
+        .then(res=>res.json())
+        .then(data=>{
+            const update = document.getElementById('update');
+            update.innerHTML = `
+            <h3>Update: ${data._id}</h3>
+            price: <input type="text" value="${data.price}" id="price">
+            quantity: <input type="text" value="${data.quantity}" id="quantity">
+            <button>submit</button>
+            `
+        })
+    }
 
     function deleteProduct(id){
         fetch(`/delete/${id}`,{
